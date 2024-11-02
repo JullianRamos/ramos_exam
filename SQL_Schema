@@ -1,0 +1,43 @@
+CREATE TABLE repair_jobs (
+    job_id INT AUTO_INCREMENT PRIMARY KEY,  
+    client_name VARCHAR(255) NOT NULL,     
+    mouse_model VARCHAR(255) NOT NULL,     
+    repair_description TEXT NOT NULL,      
+    status ENUM('Pending', 'In Progress', 'Completed', 'Cancelled') DEFAULT 'Pending',  ob
+    technician_id INT NOT NULL,              
+    date_added DATETIME DEFAULT CURRENT_TIMESTAMP,  
+    added_by INT NOT NULL,                
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  
+    last_updated_by INT,                     
+    FOREIGN KEY (technician_id) REFERENCES repair_technicians(technician_id), 
+    FOREIGN KEY (added_by) REFERENCES users(user_id), 
+    FOREIGN KEY (last_updated_by) REFERENCES users(user_id)  
+);
+You sent
+CREATE TABLE repair_technicians (
+    technician_id INT AUTO_INCREMENT PRIMARY KEY,  
+    username VARCHAR(255) NOT NULL UNIQUE,         
+    first_name VARCHAR(255) NOT NULL,          
+    last_name VARCHAR(255) NOT NULL,          
+    date_of_birth DATE NOT NULL,             
+    specialization VARCHAR(255) NOT NULL, 
+    date_hired DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    added_by INT NOT NULL,      
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_updated_by INT,                        
+    FOREIGN KEY (added_by) REFERENCES users(user_id), 
+    FOREIGN KEY (last_updated_by) REFERENCES users(user_id) 
+);
+You sent
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,        
+    username VARCHAR(255) NOT NULL UNIQUE,         
+    first_name VARCHAR(255) NOT NULL,            
+    last_name VARCHAR(255) NOT NULL,         
+    email VARCHAR(255) NOT NULL UNIQUE,        
+    password VARCHAR(255) NOT NULL,                 
+    address VARCHAR(255),                     
+    age INT CHECK (age >= 0),                      
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  
+);
